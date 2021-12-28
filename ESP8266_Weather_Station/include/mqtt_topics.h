@@ -1,0 +1,6 @@
+#define temp_topic "temperature"
+#define humidity_topic "humidity"
+#define preassure_topic "preasure"
+#define gas_topic "gas"
+#define rgb_topic "rgb"
+#define rgb_switch_topic "switch"

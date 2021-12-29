@@ -2,36 +2,37 @@
 #include <SPI.h>
 #include <Adafruit_Sensor.h>
 #include "Adafruit_BME680.h"
-#include <PubSubClient.h>
 #include <Wire.h>
 #include <iostream>
 #include <string>
-#include <config.h>
+#include "00config.h"
+#include "01LEDconfig.h"
+#include "02secrets.h"
 #include "RGB_LED_Handler.h"
-#include <WiFi_Handler.h>
-#include <MQTT_Client.h>
-#include <Sensor_Handler.h>
+#include "WiFi_Handler.h"
+#include "MQTT_Handler.h"
+#include "Sensor_Handler.h"
 #include <Arduino.h>
 
-// sensor
+// Anzahl Zyklen, bis die nächsten Sensorwerte ausgelesen werden.
 int max_cycle = 1000;
 int current_cycle = 0;
 
-RGB_LED_Handler rgbLED = RGB_LED_Handler(led_blue, led_green, led_red);
-WiFi_Handler wifi = WiFi_Handler(wifi_ssid, wifi_password);
-MQTT_Client mqtt = MQTT_Client(mqtt_server, &rgbLED);
-Sensor_Handler Weather_Sensor = Sensor_Handler(); 
+// Erstellen der Objekte
+MQTT_Handler mqtt = MQTT_Handler(mqtt_server);
+WiFi_Handler wifi = WiFi_Handler(wifi_ssid, wifi_wpa_psk);
+Sensor_Handler Weather_Sensor = Sensor_Handler();
 
 // Setup and init
 void setup()
 {
-   Serial.begin(9600);
+  Serial.begin(9600);
   while (!Serial)
     ;
-
   wifi.init();
   Weather_Sensor.init();
-  mqtt.init(); 
+  mqtt.init();
+
 }
 
 // Loop
@@ -52,10 +53,11 @@ void loop()
       mqtt.SendData(preassure_topic, Weather_Sensor.getPreassure());
       current_cycle = 0;
     }
-  }else
+  }
+  else
   {
     mqtt.reconnect();
   }
-  
-  delay(10); 
+
+  delay(10);
 }

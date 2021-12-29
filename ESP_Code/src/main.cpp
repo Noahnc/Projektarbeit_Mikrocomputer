@@ -7,10 +7,9 @@
 #include <iostream>
 #include <string>
 
-
 // wifi
-#define wifi_ssid "CCT Sitzungszimmer"
-#define wifi_password "CCT-$itzun@Glatt18"
+#define wifi_ssid "Demo"
+#define wifi_password "Demo2021!$735bd"
 
 // sensor
 #define SEALEVELPRESSURE_HPA (1013.25)
@@ -41,36 +40,55 @@ int green_value = 0;
 int blue_value = 0;
 bool isOn = true;
 
-// Setup and init
-void setup() {
-  Serial.begin(9600);
-  while (!Serial);
-  
-  initWlan();
-  initSensor();
-  initMqtt();
-  initPins();
+void initMqtt();
+void initPins();
+void initWlan();
+void initSensor();
+void handleRgb();
+void readSensorData();
+void reconnect();
+void callback(char *topic, byte *message, unsigned int length);
+
+// Loop
+void loop()
+{
+  // Mqtt
+  if (!client.connected())
+  {
+    Serial.println("MQTT not connected. Reconnecting...");
+    reconnect();
+  }
+
+  client.loop();
+
+  current_cycle++;
+  if (current_cycle == max_cycle)
+  {
+    Serial.println(current_cycle);
+    readSensorData();
+    current_cycle = 0;
+  }
+
+  handleRgb();
+  delay(10);
 }
 
-void initPins() {
+void initPins()
+{
   pinMode(led_red, OUTPUT);
   pinMode(led_green, OUTPUT);
   pinMode(led_blue, OUTPUT);
 }
 
-void initMqtt() {
-  Serial.print("Connecting to mqtt...");
-  client.setServer(mqtt_server, 1883);
-  client.setCallback(callback);
-}
-
-void initWlan() {
+void initWlan()
+{
   Serial.println();
   Serial.print("Connecting to wifi...");
   Serial.println(wifi_ssid);
   WiFi.begin(wifi_ssid, wifi_password);
 
-  while(WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     Serial.print(".");
     delay(50);
   }
@@ -79,12 +97,15 @@ void initWlan() {
   Serial.println("Wifi Connected");
 }
 
-void initSensor() {
+void initSensor()
+{
   Serial.println("BME680 async test");
 
-  if (!bme.begin()) {
+  if (!bme.begin())
+  {
     Serial.println("Could not find a valid BME680 sensor, check wiring!");
-    while (1);
+    while (1)
+      ;
   }
 
   // Set up oversampling and filter initialization
@@ -95,43 +116,28 @@ void initSensor() {
   bme.setGasHeater(320, 150); // 320*C for 150 ms
 }
 
-// Loop
-void loop() {
-  // Mqtt
-  if(!client.connected()) {
-    Serial.println("MQTT not connected. Reconnecting...");
-    reconnect();
-  }
-
-  client.loop();
-
-  current_cycle++;
-  if(current_cycle == max_cycle) {
-    Serial.println(current_cycle);
-    readSensorData();
-    current_cycle = 0;
-  }
-
-  handleRgb();
-  delay(10);
-}
-
-void handleRgb() {
-  if(isOn) {
+void handleRgb()
+{
+  if (isOn)
+  {
     analogWrite(led_red, red_value);
     analogWrite(led_green, green_value);
     analogWrite(led_blue, blue_value);
-  } else {
+  }
+  else
+  {
     analogWrite(led_red, 0);
     analogWrite(led_green, 0);
     analogWrite(led_blue, 0);
   }
 }
 
-void readSensorData() {
+void readSensorData()
+{
   // Server
   unsigned long endTime = bme.beginReading();
-  if (endTime == 0) {
+  if (endTime == 0)
+  {
     Serial.println("Failed to begin reading :(");
     return;
   }
@@ -143,7 +149,8 @@ void readSensorData() {
   Serial.println(endTime);
 
   delay(50);
-  if (!bme.endReading()) {
+  if (!bme.endReading())
+  {
     Serial.println("Failed to complete reading :(");
     return;
   }
@@ -157,8 +164,8 @@ void readSensorData() {
   Serial.println(" *C");
 
   String temp_string;
-  temp_string += bme.temperature;  
-  client.publish(temp_topic, (char*) temp_string.c_str());
+  temp_string += bme.temperature;
+  client.publish(temp_topic, (char *)temp_string.c_str());
 
   // Preassure
   Serial.print("Pressure = ");
@@ -166,8 +173,8 @@ void readSensorData() {
   Serial.println(" hPa");
 
   String preassure_string;
-  preassure_string += (bme.pressure / 100.0);  
-  client.publish(preassure_topic, (char*) preassure_string.c_str());
+  preassure_string += (bme.pressure / 100.0);
+  client.publish(preassure_topic, (char *)preassure_string.c_str());
 
   // Humidity
   Serial.print("Humidity = ");
@@ -175,8 +182,8 @@ void readSensorData() {
   Serial.println(" %");
 
   String hum_string;
-  hum_string += bme.humidity;  
-  client.publish(humidity_topic, (char*) hum_string.c_str());
+  hum_string += bme.humidity;
+  client.publish(humidity_topic, (char *)hum_string.c_str());
 
   // Gas
   Serial.print("Gas = ");
@@ -184,8 +191,8 @@ void readSensorData() {
   Serial.println(" KOhms");
 
   String gas_string;
-  gas_string += (bme.gas_resistance / 1000.0);  
-  client.publish(gas_topic, (char*) gas_string.c_str());
+  gas_string += (bme.gas_resistance / 1000.0);
+  client.publish(gas_topic, (char *)gas_string.c_str());
 
   // Altitude
   Serial.print("Approx. Altitude = ");
@@ -197,14 +204,17 @@ void readSensorData() {
 }
 
 // MqTT
-void reconnect() {
-  while(!client.connected()) {
+void reconnect()
+{
+  while (!client.connected())
+  {
     Serial.print("Attemping MQTT connection...");
 
     String clientId = "ESP8266-";
     clientId += String(random(0xffff), HEX);
 
-    if(client.connect(clientId.c_str())) {
+    if (client.connect(clientId.c_str()))
+    {
       Serial.print("Connecting to mqtt topics...");
       client.connect(temp_topic);
       client.connect(humidity_topic);
@@ -213,7 +223,9 @@ void reconnect() {
 
       client.subscribe(rgb_topic);
       client.subscribe(rgb_switch_topic);
-    } else {
+    }
+    else
+    {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
@@ -223,35 +235,63 @@ void reconnect() {
   }
 }
 
-void callback(char* topic, byte* message, unsigned int length) {
+void callback(char *topic, byte *message, unsigned int length)
+{
   Serial.println();
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
   Serial.print(". Message: ");
-  
+
   String messageTemp;
-  for(int i = 0; i < length; i++) {
-    Serial.print((char) message[i]);
-    messageTemp += (char) message[i];
+  for (int i = 0; i < length; i++)
+  {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
   }
 
   Serial.println();
-  if(String(topic) == rgb_topic) {
+  if (String(topic) == rgb_topic)
+  {
     Serial.println(messageTemp);
     Serial.print("Changing led rgb value");
 
-    int number = (int) strtol( &messageTemp[0], NULL, 16);
+    int number = (int)strtol(&messageTemp[0], NULL, 16);
     red_value = number >> 16;
     green_value = number >> 8 & 0xFF;
     blue_value = number & 0xFF;
-  } else if(String(topic) == rgb_switch_topic) {
+  }
+  else if (String(topic) == rgb_switch_topic)
+  {
     Serial.println(messageTemp);
     Serial.print("Changing led on off state");
 
-    if(messageTemp == "true") {
+    if (messageTemp == "true")
+    {
       isOn = true;
-    } else {
+    }
+    else
+    {
       isOn = false;
     }
   }
+}
+
+// Setup and init
+void setup()
+{
+  Serial.begin(9600);
+  while (!Serial)
+    ;
+
+  initWlan();
+  initSensor();
+  initMqtt();
+  initPins();
+}
+
+void initMqtt()
+{
+  Serial.print("Connecting to mqtt...");
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
 }

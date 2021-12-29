@@ -57,30 +57,35 @@ using namespace config_constants;
         Serial.print("Temperature = ");
         Serial.print(bme.temperature);
         Serial.println(" *C");
+        Temparature = "";
         Temparature += bme.temperature;
 
         // Preassure
         Serial.print("Pressure = ");
         Serial.print(bme.pressure / 100.0);
         Serial.println(" hPa");
+        Preassure = "";
         Preassure += (bme.pressure / 100.0);
 
         // Humidity
         Serial.print("Humidity = ");
         Serial.print(bme.humidity);
         Serial.println(" %");
+        Humidity = "";
         Humidity += bme.humidity;
 
         // Gas
         Serial.print("Gas = ");
         Serial.print(bme.gas_resistance / 1000.0);
         Serial.println(" KOhms");
+        Gas = "";
         Gas += (bme.gas_resistance / 1000.0);
 
         // Altitude
         Serial.print("Approx. Altitude = ");
         Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
         Serial.println(" m");
+        Altitude = "";
         Altitude += bme.readAltitude(SEALEVELPRESSURE_HPA);
 
         Serial.println();

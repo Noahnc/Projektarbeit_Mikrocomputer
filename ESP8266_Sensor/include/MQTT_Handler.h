@@ -15,7 +15,7 @@ class MQTT_Handler
 private:
     char *Server;
     WiFiClient espClient;
-    PubSubClient client;
+    PubSubClient client = PubSubClient(espClient);
     static RGB_LED_Handler LED;
 
 public:
@@ -24,6 +24,8 @@ public:
     void reconnect();
     bool CheckConnection();
     void SendData(char const* topic, String Data);
+    static void callback(char *topic, byte *message, unsigned int length);
+    
 }; 
 
 #endif

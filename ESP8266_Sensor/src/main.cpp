@@ -46,7 +46,6 @@ void loop()
     current_cycle++;
     if (current_cycle == max_cycle)
     {
-      Serial.println(current_cycle);
       Weather_Sensor.readSensorData();
 
       mqtt.SendData(temp_topic, Weather_Sensor.getTemp());

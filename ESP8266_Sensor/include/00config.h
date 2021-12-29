@@ -2,13 +2,12 @@
 
 namespace config_constants
 {
-    // WiFi SSID
-    const String wifi_ssid = "Cananet ";
-
-    const String wifi_wpa_psk = "pw";
+    // WiFi Config
+    const String wifi_ssid = "Demo";
+    const String wifi_wpa_psk = "Demo2021!$735bd";
 
     // MQTT Server
-    const String mqtt_server = "raspberrypi-noah.local";
+    const String mqtt_server = "192.168.1.53";
 
     // Debug Mode (gibt diverse Informationen per Serial aus)
     const bool debug_mode = true;

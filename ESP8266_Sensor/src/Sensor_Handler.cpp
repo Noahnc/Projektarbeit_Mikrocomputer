@@ -4,7 +4,9 @@
 #include <Wire.h>
 #include <iostream>
 #include "Sensor_Handler.h"
+#include "00config.h"
 
+using namespace config_constants;
 
     void Sensor_Handler::init()
     {

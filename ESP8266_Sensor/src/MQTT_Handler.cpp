@@ -1,12 +1,15 @@
 #include <PubSubClient.h>
 #include <iostream>
 #include <ESP8266WiFi.h>
-#include "mqtt_topics.h"
 #include "RGB_LED_Handler.h"
 #include <string>
 #include <Arduino.h>
 #include "MQTT_Handler.h"
 #include "MQTT_Callback.h"
+#include "00config.h"
+#include "01mqtt_topics.h"
+
+using namespace config_constants;
 
 MQTT_Handler::MQTT_Handler(String server)
 {
@@ -65,7 +68,7 @@ bool MQTT_Handler::CheckConnection()
     }
 }
 
-void MQTT_Handler::SendData(char *topic, String Data)
+void MQTT_Handler::SendData(char const *topic, String Data)
 {
     client.publish(topic, (char *)Data.c_str());
 }

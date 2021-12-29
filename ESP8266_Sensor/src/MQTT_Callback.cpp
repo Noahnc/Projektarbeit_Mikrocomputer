@@ -1,12 +1,11 @@
 #include "Arduino.h"
 #include "RGB_LED_Handler.h"
-#include "mqtt_topics.h"
 #include "MQTT_Callback.h"
-#include "01LEDconfig.h"
+#include "00config.h"
+#include "01mqtt_topics.h"
 
-/* void MQTT_Callback::init(bool debug){
-    Debug = debug;
-} */
+using namespace config_constants;
+
 
 void MQTT_Callback::callback(char *topic, byte *message, unsigned int length)
 {
@@ -31,7 +30,7 @@ void MQTT_Callback::callback(char *topic, byte *message, unsigned int length)
         Serial.println(messageTemp);
         Serial.print("Changing led rgb value");
 
-        // LED.SetLedColor(messageTemp);
+        LED.SetLedColor(messageTemp);
     }
     else if (String(topic) == rgb_switch_topic)
     {
@@ -40,11 +39,11 @@ void MQTT_Callback::callback(char *topic, byte *message, unsigned int length)
 
         if (messageTemp == "true")
         {
-            // LED.TurnOnLED();
+            LED.TurnOnLED();
         }
         else
         {
-            // LED.TurnOffLed();
+            LED.TurnOffLed();
         }
     }
 }

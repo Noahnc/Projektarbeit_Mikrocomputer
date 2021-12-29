@@ -1,7 +1,9 @@
 #include <ESP8266WiFi.h>
 #include "WiFi_Handler.h"
 #include <Arduino.h>
+#include "00config.h"
 
+using namespace config_constants;
 
     WiFi_Handler::WiFi_Handler(String ssid, String pw)
     {

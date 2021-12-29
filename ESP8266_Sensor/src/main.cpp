@@ -6,13 +6,15 @@
 #include <iostream>
 #include <string>
 #include "00config.h"
-#include "01LEDconfig.h"
-#include "02secrets.h"
 #include "RGB_LED_Handler.h"
 #include "WiFi_Handler.h"
 #include "MQTT_Handler.h"
 #include "Sensor_Handler.h"
 #include <Arduino.h>
+#include "01mqtt_topics.h"
+
+using namespace config_constants;
+
 
 // Anzahl Zyklen, bis die nächsten Sensorwerte ausgelesen werden.
 int max_cycle = 1000;

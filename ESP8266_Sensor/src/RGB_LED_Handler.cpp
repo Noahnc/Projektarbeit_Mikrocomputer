@@ -26,6 +26,7 @@ void RGB_LED_Handler::SetLedColor(String HexValue)
 
 void RGB_LED_Handler::TurnOnLED()
 {
+    Serial.println("Turn LED On");
     if (red_value == 0 and green_value == 0 and blue_value == 0)
     {
         led_blue = 100;
@@ -40,7 +41,7 @@ void RGB_LED_Handler::TurnOnLED()
 
 void RGB_LED_Handler::TurnOffLed()
 {
-
+    Serial.println("Turn LED Off");
     analogWrite(led_red, 0);
     analogWrite(led_green, 0);
     analogWrite(led_blue, 0);

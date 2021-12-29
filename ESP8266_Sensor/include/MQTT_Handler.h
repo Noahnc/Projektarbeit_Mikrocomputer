@@ -9,23 +9,24 @@
 #include <Arduino.h>
 #include <00config.h>
 
-
 class MQTT_Handler
 {
 private:
-    char *Server;
+    String MQTT_Server;
+    const char *Server;
     WiFiClient espClient;
-    PubSubClient client = PubSubClient(espClient);
+    PubSubClient client;
     static RGB_LED_Handler LED;
+    String clientId = "ESP8266-" + String(random(0xffff), HEX);
 
 public:
     MQTT_Handler(String server);
     void init();
     void reconnect();
     bool CheckConnection();
-    void SendData(char const* topic, String Data);
+    void SendData(char const *topic, String Data);
     static void callback(char *topic, byte *message, unsigned int length);
-    
-}; 
+    void ReadIncoming();
+};
 
 #endif

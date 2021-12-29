@@ -4,10 +4,10 @@ namespace config_constants
 {
     // WiFi Config
     const String wifi_ssid = "Demo";
-    const String wifi_wpa_psk = "Demo2021!$735bd";
+    const String wifi_wpa_psk = "Demo2021735bd";
 
     // MQTT Server
-    const String mqtt_server = "192.168.1.53";
+    const String mosquito_server = "raspberrypi-noah.local";
 
     // Debug Mode (gibt diverse Informationen per Serial aus)
     const bool debug_mode = true;
@@ -18,3 +18,5 @@ namespace config_constants
     static const int led_blue = 12;
 
 }
+
+

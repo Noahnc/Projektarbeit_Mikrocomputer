@@ -21,7 +21,7 @@ int max_cycle = 1000;
 int current_cycle = 0;
 
 // Erstellen der Objekte
-MQTT_Handler mqtt = MQTT_Handler(mqtt_server);
+MQTT_Handler mqtt = MQTT_Handler(mosquito_server);
 WiFi_Handler wifi = WiFi_Handler(wifi_ssid, wifi_wpa_psk);
 Sensor_Handler Weather_Sensor = Sensor_Handler();
 
@@ -29,6 +29,7 @@ Sensor_Handler Weather_Sensor = Sensor_Handler();
 void setup()
 {
   Serial.begin(9600);
+  delay(5000);
   while (!Serial)
     ;
   wifi.init();
@@ -42,6 +43,8 @@ void loop()
 {
   if (mqtt.CheckConnection())
   {
+
+    mqtt.ReadIncoming();
 
     current_cycle++;
     if (current_cycle == max_cycle)

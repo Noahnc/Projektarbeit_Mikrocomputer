@@ -5,36 +5,30 @@
 #include <string>
 #include <Arduino.h>
 #include "MQTT_Handler.h"
-//#include "MQTT_Callback.h"
 #include "00config.h"
 #include "01mqtt_topics.h"
 
 using namespace config_constants;
 
-
-
 MQTT_Handler::MQTT_Handler(String server)
 {
-    Server = (char *)server.c_str();
+    MQTT_Server = server;
 }
+
 void MQTT_Handler::init()
 {
-    void (*callback) (char *topic, byte *message, unsigned int length);
     client.setClient(espClient);
-    Serial.print("Connecting to mqtt...");
-    client.setServer(Server, 1883);
-    client.setCallback(*callback);
+    client.setServer(MQTT_Server.c_str(), 1883);
+    client.setCallback(callback);
+
+    Serial.print("Try Connecting to MQTT Server: ");
+    Serial.println(MQTT_Server);
 }
 
 void MQTT_Handler::reconnect()
 {
     while (!client.connected())
     {
-        Serial.print("Attemping MQTT connection...");
-
-        String clientId = "ESP8266-";
-        clientId += String(random(0xffff), HEX);
-
         if (client.connect(clientId.c_str()))
         {
             Serial.print("Connecting to mqtt topics...");
@@ -50,6 +44,10 @@ void MQTT_Handler::reconnect()
         {
             Serial.print("failed, rc=");
             Serial.print(client.state());
+            Serial.print(" Server=");
+            Serial.print(MQTT_Server);
+            Serial.print(", Client=");
+            Serial.print(clientId);
             Serial.println(" try again in 5 seconds");
 
             delay(5000);
@@ -76,11 +74,14 @@ void MQTT_Handler::SendData(char const *topic, String Data)
     client.publish(topic, (char *)Data.c_str());
 }
 
+void MQTT_Handler::ReadIncoming()
+{
+    client.loop();
+}
+
 void MQTT_Handler::callback(char *topic, byte *message, unsigned int length)
 {
-    Serial.print("Callback fired");
-
-/*     // Erstellen der LED
+    // Erstellen der LED
     static RGB_LED_Handler LED = RGB_LED_Handler(led_blue, led_green, led_red);
 
     Serial.println();
@@ -116,5 +117,5 @@ void MQTT_Handler::callback(char *topic, byte *message, unsigned int length)
         {
             LED.TurnOffLed();
         }
-    } */
+    }
 }

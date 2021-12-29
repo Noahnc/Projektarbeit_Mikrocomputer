@@ -13,7 +13,7 @@ using namespace config_constants;
     void WiFi_Handler::init()
     {
         Serial.println();
-        Serial.print("Connecting to wifi...");
+        Serial.print("Connecting to SSID: ");
         Serial.println(SSID);
         WiFi.begin(SSID, Password);
 

@@ -14,6 +14,10 @@ private:
 public:
     WiFi_Handler(String, String);
     void init();
+    String getNetworkiP();
+    String getConnectedSSID();
+    String getWiFiRSSI();
+    String getHostname();
 };
 
 

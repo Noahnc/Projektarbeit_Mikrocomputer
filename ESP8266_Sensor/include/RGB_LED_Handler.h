@@ -20,6 +20,7 @@ public:
     void SetLedColor(String HexValue);
     void TurnOnLED();
     void TurnOffLed();
+    bool getLEDStatus();
 
 };
 

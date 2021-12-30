@@ -13,7 +13,7 @@ private:
 #define SEALEVELPRESSURE_HPA (1013.25)
     Adafruit_BME680 bme;
     String Temparature;
-    String Preassure;
+    String Presure;
     String Humidity;
     String Gas;
     String Altitude;
@@ -22,7 +22,7 @@ public:
     void init();
     bool readSensorData();
     String getTemp();
-    String getPreassure();
+    String getPresure();
     String getHumidity();
     String getGas();
     String getAltitude();

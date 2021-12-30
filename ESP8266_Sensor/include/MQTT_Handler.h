@@ -16,10 +16,10 @@ private:
     const char *Server;
     WiFiClient espClient;
     PubSubClient client;
-    static RGB_LED_Handler LED;
     String clientId = "ESP8266-" + String(random(0xffff), HEX);
 
 public:
+    static RGB_LED_Handler LED;
     MQTT_Handler(String server);
     void init();
     void reconnect();

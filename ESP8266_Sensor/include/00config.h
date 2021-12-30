@@ -12,8 +12,8 @@ namespace config_constants
     // Debug Mode (gibt diverse Informationen per Serial aus)
     const bool debug_mode = false;
 
-    // Intervall in Sekunden, in welchm der Sensor gelesen und die Daten übermittelt werden.
-    const int sensor_interval = 30;
+    // Intervall in Sekunden, in welchm Daten ausgewertet und per mqtt übermittelt werden.
+    const int mqtt_update_interval = 30;
 
     // RGB LED pins
     static const int led_red = 15;

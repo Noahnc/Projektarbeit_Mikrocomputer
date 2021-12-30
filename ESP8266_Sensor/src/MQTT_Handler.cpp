@@ -37,19 +37,15 @@ void MQTT_Handler::reconnect()
             {
                 Serial.print("Connecting to MQTT topics: ");
             }
-            client.connect(temp_topic);
-            client.connect(humidity_topic);
-            client.connect(preassure_topic);
-            client.connect(gas_topic);
+            client.connect(ESP_JSON_DATA);
 
             client.subscribe(rgb_topic);
             client.subscribe(rgb_switch_topic);
 
             if (debug_mode)
             {
-             Serial.println("OK");
+                Serial.println("OK");
             }
-            
         }
         else
         {

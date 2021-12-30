@@ -89,8 +89,8 @@ bool Sensor_Handler::readSensorData()
         Serial.print(bme.pressure / 100.0);
         Serial.println(" hPa");
     }
-    Preassure = "";
-    Preassure += (bme.pressure / 100.0);
+    Presure = "";
+    Presure += (bme.pressure / 100.0);
 
     // Humidity
     if (debug_mode)
@@ -132,9 +132,9 @@ String Sensor_Handler::getTemp()
     return Temparature;
 }
 
-String Sensor_Handler::getPreassure()
+String Sensor_Handler::getPresure()
 {
-    return Preassure;
+    return Presure;
 }
 
 String Sensor_Handler::getHumidity()

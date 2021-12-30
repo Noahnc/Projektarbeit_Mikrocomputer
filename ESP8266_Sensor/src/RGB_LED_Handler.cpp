@@ -71,3 +71,7 @@ void RGB_LED_Handler::TurnOffLed()
     analogWrite(led_blue, 0);
     On = false;
 }
+
+bool RGB_LED_Handler::getLEDStatus(){
+    return On;
+}

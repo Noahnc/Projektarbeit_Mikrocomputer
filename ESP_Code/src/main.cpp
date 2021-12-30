@@ -9,7 +9,7 @@
 
 // wifi
 #define wifi_ssid "Demo"
-#define wifi_password "Demo2021!$735bd"
+#define wifi_password "Demo2021735bd"
 
 // sensor
 #define SEALEVELPRESSURE_HPA (1013.25)

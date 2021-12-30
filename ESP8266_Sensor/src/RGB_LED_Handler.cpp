@@ -9,6 +9,10 @@ RGB_LED_Handler::RGB_LED_Handler(int blue, int green, int red)
     led_blue = blue;
     led_green = green;
     led_red = red;
+
+    pinMode(led_red, OUTPUT);
+    pinMode(led_green, OUTPUT);
+    pinMode(led_blue, OUTPUT);
 }
 
 void RGB_LED_Handler::SetLedColor(String HexValue)
@@ -19,30 +23,51 @@ void RGB_LED_Handler::SetLedColor(String HexValue)
     green_value = number >> 8 & 0xFF;
     blue_value = number & 0xFF;
 
-    analogWrite(led_red, red_value);
-    analogWrite(led_green, green_value);
-    analogWrite(led_blue, blue_value);
+    if (debug_mode)
+    {
+        Serial.println("Change Red to " + String(red_value));
+        Serial.println("Change Green to " + String(green_value));
+        Serial.println("Change Blue to " + String(blue_value));
+    }
+
+    if (On)
+    {
+        analogWrite(led_red, red_value);
+        analogWrite(led_green, green_value);
+        analogWrite(led_blue, blue_value);
+    }
 }
 
 void RGB_LED_Handler::TurnOnLED()
 {
-    Serial.println("Turn LED On");
     if (red_value == 0 and green_value == 0 and blue_value == 0)
     {
-        led_blue = 100;
-        led_green = 100;
-        led_red = 100;
+        SetLedColor("062ff9");
+    }
+
+    if (debug_mode)
+    {
+        Serial.println("Turn LED On");
+        Serial.println("Red = " + String(red_value));
+        Serial.println("Green = " + String(green_value));
+        Serial.println("Blue = " + String(blue_value));
     }
 
     analogWrite(led_red, red_value);
     analogWrite(led_green, green_value);
     analogWrite(led_blue, blue_value);
+    On = true;
 }
 
 void RGB_LED_Handler::TurnOffLed()
 {
-    Serial.println("Turn LED Off");
+    if (debug_mode)
+    {
+        Serial.println("Turn LED Off");
+    }
+
     analogWrite(led_red, 0);
     analogWrite(led_green, 0);
     analogWrite(led_blue, 0);
+    On = false;
 }

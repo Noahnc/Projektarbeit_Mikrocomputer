@@ -20,9 +20,11 @@ void MQTT_Handler::init()
     client.setClient(espClient);
     client.setServer(MQTT_Server.c_str(), 1883);
     client.setCallback(callback);
-
-    Serial.print("Try Connecting to MQTT Server: ");
-    Serial.println(MQTT_Server);
+    if (debug_mode)
+    {
+        Serial.print("Connecting to MQTT Server: ");
+        Serial.println(MQTT_Server);
+    }
 }
 
 void MQTT_Handler::reconnect()
@@ -31,7 +33,10 @@ void MQTT_Handler::reconnect()
     {
         if (client.connect(clientId.c_str()))
         {
-            Serial.print("Connecting to mqtt topics...");
+            if (debug_mode)
+            {
+                Serial.print("Connecting to MQTT topics: ");
+            }
             client.connect(temp_topic);
             client.connect(humidity_topic);
             client.connect(preassure_topic);
@@ -39,16 +44,25 @@ void MQTT_Handler::reconnect()
 
             client.subscribe(rgb_topic);
             client.subscribe(rgb_switch_topic);
+
+            if (debug_mode)
+            {
+             Serial.println("OK");
+            }
+            
         }
         else
         {
-            Serial.print("failed, rc=");
-            Serial.print(client.state());
-            Serial.print(" Server=");
-            Serial.print(MQTT_Server);
-            Serial.print(", Client=");
-            Serial.print(clientId);
-            Serial.println(" try again in 5 seconds");
+            if (debug_mode)
+            {
+                Serial.print("failed, rc=");
+                Serial.print(client.state());
+                Serial.print(" Server=");
+                Serial.print(MQTT_Server);
+                Serial.print(", Client=");
+                Serial.print(clientId);
+                Serial.println(" try again in 5 seconds");
+            }
 
             delay(5000);
         }
@@ -60,7 +74,10 @@ bool MQTT_Handler::CheckConnection()
     // Mqtt
     if (!client.connected())
     {
-        Serial.println("MQTT not connected. Reconnecting...");
+        if (debug_mode)
+        {
+            Serial.println("MQTT not connected. Reconnecting...");
+        }
         return false;
     }
     else
@@ -84,30 +101,47 @@ void MQTT_Handler::callback(char *topic, byte *message, unsigned int length)
     // Erstellen der LED
     static RGB_LED_Handler LED = RGB_LED_Handler(led_blue, led_green, led_red);
 
-    Serial.println();
-    Serial.print("Message arrived on topic: ");
-    Serial.print(topic);
-    Serial.print(". Message: ");
+    if (debug_mode)
+    {
+        Serial.println();
+        Serial.print("Message arrived on topic: ");
+        Serial.print(topic);
+        Serial.print(". Message: ");
+    }
 
     String messageTemp;
     for (int i = 0; i < length; i++)
     {
-        Serial.print((char)message[i]);
+        if (debug_mode)
+        {
+            Serial.print((char)message[i]);
+        }
+
         messageTemp += (char)message[i];
     }
 
-    Serial.println();
+    if (debug_mode)
+    {
+        Serial.println();
+    }
+
     if (String(topic) == rgb_topic)
     {
-        Serial.println(messageTemp);
-        Serial.print("Changing led rgb value");
+        if (debug_mode)
+        {
+            Serial.println(messageTemp);
+            Serial.println("Changing led rgb value:");
+        }
 
         LED.SetLedColor(messageTemp);
     }
     else if (String(topic) == rgb_switch_topic)
     {
-        Serial.println(messageTemp);
-        Serial.print("Changing led on off state");
+        if (debug_mode)
+        {
+            Serial.println(messageTemp);
+            Serial.println("Changing led on off state:");
+        }
 
         if (messageTemp == "true")
         {

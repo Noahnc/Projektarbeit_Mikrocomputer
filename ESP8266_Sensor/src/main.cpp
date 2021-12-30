@@ -12,13 +12,13 @@
 #include "Sensor_Handler.h"
 #include <Arduino.h>
 #include "01mqtt_topics.h"
+#include <chrono>
 
 using namespace config_constants;
 
+double last_sensor_read = 0;
+double time_diference;
 
-// Anzahl Zyklen, bis die nächsten Sensorwerte ausgelesen werden.
-int max_cycle = 1000;
-int current_cycle = 0;
 
 // Erstellen der Objekte
 MQTT_Handler mqtt = MQTT_Handler(mosquito_server);
@@ -29,13 +29,11 @@ Sensor_Handler Weather_Sensor = Sensor_Handler();
 void setup()
 {
   Serial.begin(9600);
-  delay(5000);
   while (!Serial)
     ;
   wifi.init();
   Weather_Sensor.init();
   mqtt.init();
-
 }
 
 // Loop
@@ -46,8 +44,8 @@ void loop()
 
     mqtt.ReadIncoming();
 
-    current_cycle++;
-    if (current_cycle == max_cycle)
+    time_diference = millis() - last_sensor_read;
+    if (time_diference / 1000 > sensor_interval)
     {
       Weather_Sensor.readSensorData();
 
@@ -55,13 +53,11 @@ void loop()
       mqtt.SendData(humidity_topic, Weather_Sensor.getHumidity());
       mqtt.SendData(gas_topic, Weather_Sensor.getGas());
       mqtt.SendData(preassure_topic, Weather_Sensor.getPreassure());
-      current_cycle = 0;
+      last_sensor_read = millis();
     }
   }
   else
   {
     mqtt.reconnect();
   }
-
-  delay(10);
 }

@@ -18,7 +18,7 @@ namespace config_constants
     const String mosquito_server = "raspberrypi-noah.local";
 
     // Debug Mode (gibt diverse Informationen per Serial aus)
-    const bool debug_mode = true;
+    const bool debug_mode = false;
 
     // Intervall in Sekunden, in welchm Daten ausgewertet und per mqtt übermittelt werden.
     const int mqtt_update_interval = 30;

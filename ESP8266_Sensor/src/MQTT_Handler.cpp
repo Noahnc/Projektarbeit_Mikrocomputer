@@ -1,3 +1,11 @@
+/* 
+########################################################################
+#                           MQTT Handler
+########################################################################
+#                           Description
+#      Handelt den Versand und das Empfangen der MQTT Telegramme
+*/
+
 #include <PubSubClient.h>
 #include <iostream>
 #include <ESP8266WiFi.h>

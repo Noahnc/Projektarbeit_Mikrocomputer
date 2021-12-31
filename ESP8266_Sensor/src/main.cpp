@@ -1,3 +1,12 @@
+/*
+########################################################################
+# Mikrocomputertechnik Projektarbeit by Noah Canadea and Milan Bursac
+########################################################################
+#                           Description
+#       ESP8266 Code für BME Temparatursensor und RGB LED Steuerung
+#
+#                    Version 1.0 | 10.01.2021 */
+
 #include <ESP8266WiFi.h>
 #include <SPI.h>
 #include <Adafruit_Sensor.h>
@@ -27,6 +36,7 @@ Sensor_Handler Weather_Sensor = Sensor_Handler();
 
 // Function declaration
 String ComposeJsonESPstatus();
+void HandleWiFiDisconnect();
 
 // Setup and init
 void setup()
@@ -42,17 +52,18 @@ void setup()
 // Loop
 void loop()
 {
+  HandleWiFiDisconnect();
   if (mqtt.CheckConnection())
   {
-
+    // Update der
     mqtt.ReadIncoming();
 
+    // Update des Sensors und senden der Daten wenn Update Intervall überschritten
     if ((millis() - last_sensor_read) / 1000 > mqtt_update_interval)
     {
-      Weather_Sensor.readSensorData();
-
-      mqtt.SendData(ESP_JSON_DATA, ComposeJsonESPstatus());
       last_sensor_read = millis();
+      Weather_Sensor.readSensorData();
+      mqtt.SendData(ESP_JSON_DATA, ComposeJsonESPstatus());
     }
   }
   else
@@ -63,19 +74,23 @@ void loop()
 
 String ComposeJsonESPstatus()
 {
+  // Sammeln der Daten
   String ssid = wifi.getConnectedSSID();
   String ip = wifi.getNetworkiP();
   String rssi = wifi.getWiFiRSSI();
   String hostname = wifi.getHostname();
-  String temp = Weather_Sensor.getTemp();
-  String humidity = Weather_Sensor.getHumidity();
-  String gas = Weather_Sensor.getGas();
-  String presure = Weather_Sensor.getPresure();
+  float free_heap = ESP.getFreeHeap() / 1000;
+  int heap_fragmentation = ESP.getHeapFragmentation();
+  float temp = Weather_Sensor.getTemp();
+  float humidity = Weather_Sensor.getHumidity();
+  float gas = Weather_Sensor.getGas();
+  float presure = Weather_Sensor.getPresure();
 
   String Json_Data;
 
   StaticJsonDocument<200> doc;
 
+  // Zusammentragen der Daten zu einem Json String
   doc["ssid"] = ssid;
   doc["ip"] = ip;
   doc["rssi"] = rssi;
@@ -84,7 +99,8 @@ String ComposeJsonESPstatus()
   doc["sensor_humidity"] = humidity;
   doc["sensor_gas"] = gas;
   doc["sensor_presure"] = presure;
-
+  doc["esp_free_heap"] = free_heap;
+  doc["esp_heap_fragmentation"] = heap_fragmentation;
   serializeJson(doc, Json_Data);
 
   if (debug_mode)
@@ -93,4 +109,29 @@ String ComposeJsonESPstatus()
   }
 
   return Json_Data;
+}
+
+void HandleWiFiDisconnect()
+{
+  if (wifi.CheckWiFiConnected() == false)
+  {
+    RGB_LED_Handler warn_led = RGB_LED_Handler(led_blue, led_green, led_red);
+    warn_led.SetLedColor("ff0011");
+
+    while (wifi.CheckWiFiConnected() == false)
+    {
+      warn_led.TurnOnLED();
+      delay(100);
+      warn_led.TurnOffLed();
+      delay(100);
+      warn_led.TurnOnLED();
+      delay(100);
+      warn_led.TurnOffLed();
+      delay(100);
+      warn_led.TurnOnLED();
+      delay(100);
+      warn_led.TurnOffLed();
+      delay(3000);
+    }
+  }
 }

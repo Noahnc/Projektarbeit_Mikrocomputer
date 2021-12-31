@@ -1,3 +1,11 @@
+/* 
+########################################################################
+#                         RGB LED Handler
+########################################################################
+#                           Description
+#   Handelt das Ein / Ausschalten und setzen der Farbe einer RGB LED
+*/
+
 #include <Arduino.h>
 #include "RGB_LED_Handler.h"
 #include "00config.h"

@@ -1,3 +1,11 @@
+/* 
+########################################################################
+#                          Sensor Handler
+########################################################################
+#                           Description
+#         Handelt das Auslesen eines BME680 Climate Sensors
+*/
+
 #include <SPI.h>
 #include <Adafruit_Sensor.h>
 #include "Adafruit_BME680.h"
@@ -127,26 +135,26 @@ bool Sensor_Handler::readSensorData()
     return true;
 }
 
-String Sensor_Handler::getTemp()
+float Sensor_Handler::getTemp()
 {
-    return Temparature;
+    return Temparature.toFloat();
 }
 
-String Sensor_Handler::getPresure()
+float Sensor_Handler::getPresure()
 {
-    return Presure;
+    return Presure.toFloat();
 }
 
-String Sensor_Handler::getHumidity()
+float Sensor_Handler::getHumidity()
 {
-    return Humidity;
+    return Humidity.toFloat();
 }
-String Sensor_Handler::getGas()
+float Sensor_Handler::getGas()
 {
-    return Gas;
+    return Gas.toFloat();
 }
 
-String Sensor_Handler::getAltitude()
+float Sensor_Handler::getAltitude()
 {
-    return Altitude;
+    return Altitude.toFloat();
 }

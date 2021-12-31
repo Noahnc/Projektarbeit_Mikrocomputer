@@ -21,11 +21,11 @@ private:
 public:
     void init();
     bool readSensorData();
-    String getTemp();
-    String getPresure();
-    String getHumidity();
-    String getGas();
-    String getAltitude();
+    float getTemp();
+    float getPresure();
+    float getHumidity();
+    float getGas();
+    float getAltitude();
 };
 
 #endif

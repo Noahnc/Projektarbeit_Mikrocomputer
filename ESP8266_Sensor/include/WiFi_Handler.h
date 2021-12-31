@@ -18,6 +18,7 @@ public:
     String getConnectedSSID();
     String getWiFiRSSI();
     String getHostname();
+    bool CheckWiFiConnected();
 };
 
 

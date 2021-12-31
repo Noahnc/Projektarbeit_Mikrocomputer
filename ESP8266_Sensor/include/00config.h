@@ -1,3 +1,11 @@
+/* 
+########################################################################
+#                  Globale configurations variablen
+########################################################################
+#                           Description
+#            In dieser Datei sind alle globalen Variablen
+*/
+
 #pragma once
 
 namespace config_constants
@@ -10,7 +18,7 @@ namespace config_constants
     const String mosquito_server = "raspberrypi-noah.local";
 
     // Debug Mode (gibt diverse Informationen per Serial aus)
-    const bool debug_mode = false;
+    const bool debug_mode = true;
 
     // Intervall in Sekunden, in welchm Daten ausgewertet und per mqtt übermittelt werden.
     const int mqtt_update_interval = 30;

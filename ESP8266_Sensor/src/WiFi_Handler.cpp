@@ -1,3 +1,11 @@
+/*
+########################################################################
+#                           WiFi Handler
+########################################################################
+#                           Description
+#   Handelt das den WLAN Verbindungsaufbau und dessen Zustand
+*/
+
 #include <ESP8266WiFi.h>
 #include "WiFi_Handler.h"
 #include <Arduino.h>
@@ -20,6 +28,8 @@ void WiFi_Handler::init()
         Serial.print("Connecting to SSID: " + SSID);
     }
     WiFi.begin(SSID, Password);
+    WiFi.setAutoConnect(true);
+    WiFi.persistent(true);
 
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -42,6 +52,18 @@ String WiFi_Handler::getNetworkiP()
     for (int i = 0; i < 4; i++)
         s += i ? "." + String(ip[i]) : String(ip[i]);
     return s;
+}
+
+bool WiFi_Handler::CheckWiFiConnected()
+{
+    if (WiFi.status() == WL_CONNECTED)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 String WiFi_Handler::getConnectedSSID()

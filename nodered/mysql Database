@@ -1,0 +1,19 @@
+CREATE DATABASE WeatherData;
+
+create table messwerte(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    timedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    temp FLOAT NOT NULL,
+    humidity FLOAT NOT NULL,
+    gas FLOAT NOT NULL,
+    presure FLOAT NOT NULL
+);
+
+CREATE USER 'nodered'@'10.135.0.2' IDENTIFIED BY 'Teko2021!';
+GRANT ALL PRIVILEGES ON WeatherData.* TO 'nodered'@'10.135.0.2';
+
+INSERT INTO messwerte (temp, humidity, gas, presure)
+VALUES (21.23, 35.72, 55.22, 977.3);
+
+
+

@@ -22,21 +22,26 @@
 #include <Arduino.h>
 #include "01mqtt_topics.h"
 #include <ArduinoJson.h>
-#include <chrono>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 
 using namespace config_constants;
 
 double last_sensor_read = 0;
 double time_diference;
+WiFiUDP ntpUDP;
 
 // Erstellen der Objekte
-MQTT_Handler mqtt = MQTT_Handler(mosquito_server);
-WiFi_Handler wifi = WiFi_Handler(wifi_ssid, wifi_wpa_psk);
+MQTT_Handler mqtt = MQTT_Handler(mosquitto_server, mosquitto_user, mosquitto_pw, ESP_Hostname);
+WiFi_Handler wifi = WiFi_Handler(wifi_ssid, wifi_wpa_psk, ESP_Hostname);
 Sensor_Handler Weather_Sensor = Sensor_Handler();
+NTPClient timeClient(ntpUDP, NTP_Server.c_str(), 3600);
 
 // Function declaration
 String ComposeJsonESPstatus();
 void HandleWiFiDisconnect();
+void CheckMemoryFragmentation();
+void UpdateTime();
 
 // Setup and init
 void setup()
@@ -45,6 +50,8 @@ void setup()
   while (!Serial)
     ;
   wifi.init();
+  timeClient.begin();
+  UpdateTime();
   Weather_Sensor.init();
   mqtt.init();
 }
@@ -64,6 +71,8 @@ void loop()
       last_sensor_read = millis();
       Weather_Sensor.readSensorData();
       mqtt.SendData(ESP_JSON_DATA, ComposeJsonESPstatus());
+      CheckMemoryFragmentation();
+      UpdateTime();
     }
   }
   else
@@ -88,7 +97,7 @@ String ComposeJsonESPstatus()
 
   String Json_Data;
 
-  StaticJsonDocument<200> doc;
+  StaticJsonDocument<250> doc;
 
   // Zusammentragen der Daten zu einem Json String
   doc["ssid"] = ssid;
@@ -105,7 +114,7 @@ String ComposeJsonESPstatus()
 
   if (debug_mode)
   {
-    Serial.print("Composed Json : " + Json_Data);
+    Serial.println("Composed Json : " + Json_Data);
   }
 
   return Json_Data;
@@ -133,5 +142,24 @@ void HandleWiFiDisconnect()
       warn_led.TurnOffLed();
       delay(3000);
     }
+  }
+}
+
+void CheckMemoryFragmentation()
+{
+  if (ESP.getHeapFragmentation() > 85)
+  {
+    Serial.println("Heap fragmentation is to high, restart ESP board");
+    ESP.restart();
+  }
+}
+
+void UpdateTime()
+{
+  timeClient.update();
+
+  if (debug_mode)
+  {
+    Serial.println("Aktuelle Zeit: " + timeClient.getFormattedTime());
   }
 }

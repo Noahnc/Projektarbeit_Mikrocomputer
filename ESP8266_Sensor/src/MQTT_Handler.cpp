@@ -18,13 +18,19 @@
 
 using namespace config_constants;
 
-MQTT_Handler::MQTT_Handler(String server)
+MQTT_Handler::MQTT_Handler(String server, String user, String pw, String id)
 {
     MQTT_Server = server;
+    MQTT_User = user;
+    MQTT_Pw = pw;
+    clientId = id;
 }
 
 void MQTT_Handler::init()
 {
+    cert = X509List(mosquitto_ca);
+    espClient.setTrustAnchors(&cert);
+    espClient.setInsecure();
     client.setClient(espClient);
     client.setServer(MQTT_Server.c_str(), 1883);
     client.setCallback(callback);
@@ -39,7 +45,7 @@ void MQTT_Handler::reconnect()
 {
     while (!client.connected())
     {
-        if (client.connect(clientId.c_str()))
+        if (client.connect(clientId.c_str(), MQTT_User.c_str(), MQTT_Pw.c_str()))
         {
             if (debug_mode)
             {

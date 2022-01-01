@@ -13,13 +13,16 @@
 #include <string>
 #include <IPAddress.h>
 
+
 using namespace config_constants;
 
-WiFi_Handler::WiFi_Handler(String ssid, String pw)
+WiFi_Handler::WiFi_Handler(String ssid, String pw, String hostname)
 {
     SSID = ssid;
     Password = pw;
+    Hostname = hostname;
 }
+
 void WiFi_Handler::init()
 {
     if (debug_mode)
@@ -30,6 +33,7 @@ void WiFi_Handler::init()
     WiFi.begin(SSID, Password);
     WiFi.setAutoConnect(true);
     WiFi.persistent(true);
+    WiFi.setHostname(Hostname.c_str());
 
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -44,6 +48,7 @@ void WiFi_Handler::init()
         Serial.println("");
         Serial.println("SSID " + SSID + " connected");
     }
+
 }
 String WiFi_Handler::getNetworkiP()
 {
@@ -81,3 +86,5 @@ String WiFi_Handler::getHostname()
 {
     return WiFi.hostname();
 }
+
+

@@ -4,25 +4,27 @@
 #include <ESP8266WiFi.h>
 #include "WiFi_Handler.h"
 #include <Arduino.h>
+#include "NTPClient.h"
+#include <WiFiUdp.h>
 
 class WiFi_Handler
 {
 private:
     String SSID;
     String Password;
+    String Hostname;
+    String NTP_server;
+
 
 public:
-    WiFi_Handler(String, String);
+    WiFi_Handler(String ssid, String pw, String hostname);
     void init();
     String getNetworkiP();
     String getConnectedSSID();
     String getWiFiRSSI();
     String getHostname();
     bool CheckWiFiConnected();
+
 };
 
-
 #endif
-
-
-

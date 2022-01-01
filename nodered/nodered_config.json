@@ -137,9 +137,10 @@
         "name": "esp8266",
         "broker": "localhost",
         "port": "1883",
+        "tls": "d8474cb4acfd8a9d",
         "clientid": "",
         "autoConnect": true,
-        "usetls": false,
+        "usetls": true,
         "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
@@ -241,6 +242,53 @@
         "width": "6",
         "collapse": false,
         "className": ""
+    },
+    {
+        "id": "d8474cb4acfd8a9d",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "mqtt_ca.crt",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "fa9ebf0b8460f903",
+        "type": "MySQLdatabase",
+        "name": "mysql",
+        "host": "10.135.0.3",
+        "port": "3306",
+        "db": "WeatherData",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "8880d363.148ac",
+        "type": "ui_group",
+        "name": "Thermostat demo",
+        "tab": "db58ad1a.e37a8",
+        "order": 2,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "a844720c.608d6",
+        "type": "MySQLdatabase",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "nodered",
+        "tz": ""
+    },
+    {
+        "id": "db58ad1a.e37a8",
+        "type": "ui_tab",
+        "name": "Test stuff",
+        "icon": "dashboard"
     },
     {
         "id": "d237f3cad71b27a5",
@@ -615,10 +663,10 @@
                 "97119f137adb74e7",
                 "52bdc5fe8a1490a2",
                 "f87ae8c768f1f59f",
-                "7ce9211d82c50e40",
                 "3523e81d4933a221",
                 "62692799ee2314ad",
-                "51fe21c917170492"
+                "51fe21c917170492",
+                "bdd5ccb3a65b0547"
             ]
         ]
     },
@@ -702,6 +750,13 @@
                 "pt": "msg",
                 "to": "payload",
                 "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Temparatur",
+                "tot": "str"
             }
         ],
         "action": "",
@@ -710,12 +765,11 @@
         "to": "",
         "reg": false,
         "x": 580,
-        "y": 200,
+        "y": 180,
         "wires": [
             [
                 "d237f3cad71b27a5",
-                "7f52d610ca9391bd",
-                "fd999beba69eb9ea"
+                "7f52d610ca9391bd"
             ]
         ]
     },
@@ -731,6 +785,13 @@
                 "pt": "msg",
                 "to": "payload",
                 "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Luftfeuchtigkeit",
+                "tot": "str"
             }
         ],
         "action": "",
@@ -739,7 +800,7 @@
         "to": "",
         "reg": false,
         "x": 580,
-        "y": 300,
+        "y": 280,
         "wires": [
             [
                 "07f158e0a101d638",
@@ -759,6 +820,13 @@
                 "pt": "msg",
                 "to": "payload",
                 "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Luftqualität",
+                "tot": "str"
             }
         ],
         "action": "",
@@ -767,119 +835,13 @@
         "to": "",
         "reg": false,
         "x": 580,
-        "y": 400,
+        "y": 380,
         "wires": [
             [
                 "1339f35912afc8c1",
                 "031a8994845bcabc"
             ]
         ]
-    },
-    {
-        "id": "fd999beba69eb9ea",
-        "type": "switch",
-        "z": "343d439a7b165976",
-        "name": "",
-        "property": "payload",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "lt",
-                "v": "18",
-                "vt": "str"
-            },
-            {
-                "t": "gte",
-                "v": "18",
-                "vt": "str"
-            },
-            {
-                "t": "gte",
-                "v": "30",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 3,
-        "x": 570,
-        "y": 120,
-        "wires": [
-            [],
-            [
-                "29451cce34a6fb0d"
-            ],
-            [
-                "d5e4069455319b56"
-            ]
-        ]
-    },
-    {
-        "id": "29451cce34a6fb0d",
-        "type": "change",
-        "z": "343d439a7b165976",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "7CFC00",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 770,
-        "y": 100,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "d5e4069455319b56",
-        "type": "change",
-        "z": "343d439a7b165976",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "FF0000",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 770,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "7ce9211d82c50e40",
-        "type": "debug",
-        "z": "343d439a7b165976",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 390,
-        "y": 160,
-        "wires": []
     },
     {
         "id": "9b6b6e7fbe2313a3",
@@ -1058,6 +1020,175 @@
         "x": 770,
         "y": 560,
         "wires": []
+    },
+    {
+        "id": "3b02f206d3432dbb",
+        "type": "mysql",
+        "z": "343d439a7b165976",
+        "mydb": "fa9ebf0b8460f903",
+        "name": "inser into mysql db",
+        "x": 770,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bdd5ccb3a65b0547",
+        "type": "function",
+        "z": "343d439a7b165976",
+        "name": "compose SQL insert",
+        "func": "var data=msg.payload; //get payload\nlet query='INSERT INTO messwerte (temp, humidity, gas, presure) VALUES (' + data.sensor_temp + ',' + data.sensor_humidity + ',' + data.sensor_gas + ',' + data.sensor_presure + ');';\nmsg.topic=query;\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 40,
+        "wires": [
+            [
+                "3b02f206d3432dbb"
+            ]
+        ]
+    },
+    {
+        "id": "91638b296e22e39c",
+        "type": "mysql",
+        "z": "343d439a7b165976",
+        "mydb": "fa9ebf0b8460f903",
+        "name": "mysql select messwerte",
+        "x": 250,
+        "y": 340,
+        "wires": [
+            [
+                "a25d1691f9c712df",
+                "6f0e805485a4e1c7",
+                "a5ef9b7d4b5072dd"
+            ]
+        ]
+    },
+    {
+        "id": "8a7bd86d8a8699d0",
+        "type": "inject",
+        "z": "343d439a7b165976",
+        "name": "compose select query",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "7",
+        "topic": "SELECT * FROM messwerte;",
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "91638b296e22e39c"
+            ]
+        ]
+    },
+    {
+        "id": "efc6bf7807751021",
+        "type": "split",
+        "z": "343d439a7b165976",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 420,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a25d1691f9c712df",
+        "type": "change",
+        "z": "343d439a7b165976",
+        "name": "compose",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[{\t    \"series\": [\"Temparatur\"],\t    \"labels\": [\"Temparatur\"],\t    \"data\": [[payload.{\t        \"x\": timedate,\t        \"y\": temp\t    }]]\t}]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 220,
+        "wires": [
+            [
+                "7f52d610ca9391bd"
+            ]
+        ]
+    },
+    {
+        "id": "a5ef9b7d4b5072dd",
+        "type": "change",
+        "z": "343d439a7b165976",
+        "name": "compose",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[{\t    \"series\": [\"Luftfeuchtigkeit\"],\t    \"labels\": [\"Luftfeuchtigkeit\"],\t    \"data\": [[payload.{\t        \"x\": timedate,\t        \"y\": humidity\t    }]]\t}]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 320,
+        "wires": [
+            [
+                "78ea5122d9cd1a2e"
+            ]
+        ]
+    },
+    {
+        "id": "6f0e805485a4e1c7",
+        "type": "change",
+        "z": "343d439a7b165976",
+        "name": "compose",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[{\t    \"series\": [\"Luftqualität\"],\t    \"labels\": [\"Luftqualität\"],\t    \"data\": [[payload.{\t        \"x\": timedate,\t        \"y\": gas\t    }]]\t}]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 420,
+        "wires": [
+            [
+                "1339f35912afc8c1"
+            ]
+        ]
     },
     {
         "id": "3fdf55e415e186c5",

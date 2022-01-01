@@ -10,17 +10,23 @@
 #include <00config.h>
 
 class MQTT_Handler
+
 {
+
+
 private:
     String MQTT_Server;
+    String MQTT_User;
+    String MQTT_Pw;
     const char *Server;
-    WiFiClient espClient;
+    BearSSL::WiFiClientSecure espClient;
     PubSubClient client;
-    String clientId = "ESP8266-" + String(random(0xffff), HEX);
+    String clientId;
+    BearSSL::X509List cert;
 
 public:
     static RGB_LED_Handler LED;
-    MQTT_Handler(String server);
+    MQTT_Handler(String server, String user, String pw, String id);
     void init();
     void reconnect();
     bool CheckConnection();

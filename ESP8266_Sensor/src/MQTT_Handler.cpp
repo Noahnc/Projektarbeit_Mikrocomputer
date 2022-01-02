@@ -1,4 +1,4 @@
-/* 
+/*
 ########################################################################
 #                           MQTT Handler
 ########################################################################
@@ -43,39 +43,36 @@ void MQTT_Handler::init()
 
 void MQTT_Handler::reconnect()
 {
-    while (!client.connected())
+    if (client.connect(clientId.c_str(), MQTT_User.c_str(), MQTT_Pw.c_str()))
     {
-        if (client.connect(clientId.c_str(), MQTT_User.c_str(), MQTT_Pw.c_str()))
+        if (debug_mode)
         {
-            if (debug_mode)
-            {
-                Serial.print("Connecting to MQTT topics: ");
-            }
-            client.connect(ESP_JSON_DATA);
-
-            client.subscribe(rgb_topic);
-            client.subscribe(rgb_switch_topic);
-
-            if (debug_mode)
-            {
-                Serial.println("OK");
-            }
+            Serial.print("Connecting to MQTT topics: ");
         }
-        else
+        client.connect(ESP_JSON_DATA);
+
+        client.subscribe(rgb_topic);
+        client.subscribe(rgb_switch_topic);
+
+        if (debug_mode)
         {
-            if (debug_mode)
-            {
-                Serial.print("failed, rc=");
-                Serial.print(client.state());
-                Serial.print(" Server=");
-                Serial.print(MQTT_Server);
-                Serial.print(", Client=");
-                Serial.print(clientId);
-                Serial.println(" try again in 5 seconds");
-            }
-
-            delay(5000);
+            Serial.println("OK");
         }
+    }
+    else
+    {
+        if (debug_mode)
+        {
+            Serial.print("failed, rc=");
+            Serial.print(client.state());
+            Serial.print(" Server=");
+            Serial.print(MQTT_Server);
+            Serial.print(", Client=");
+            Serial.print(clientId);
+            Serial.println(" try again in 5 seconds");
+        }
+
+        delay(2000);
     }
 }
 

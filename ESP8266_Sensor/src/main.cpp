@@ -36,12 +36,15 @@ MQTT_Handler mqtt = MQTT_Handler(mosquitto_server, mosquitto_user, mosquitto_pw,
 WiFi_Handler wifi = WiFi_Handler(wifi_ssid, wifi_wpa_psk, ESP_Hostname);
 Sensor_Handler Weather_Sensor = Sensor_Handler();
 NTPClient timeClient(ntpUDP, NTP_Server.c_str(), 3600);
+RGB_LED_Handler led = RGB_LED_Handler(led_blue, led_green, led_red);
 
 // Function declaration
 String ComposeJsonESPstatus();
 void HandleWiFiDisconnect();
 void CheckMemoryFragmentation();
 void UpdateTime();
+void HandleMQTTDisconnect();
+void StartupFinished();
 
 // Setup and init
 void setup()
@@ -54,6 +57,8 @@ void setup()
   UpdateTime();
   Weather_Sensor.init();
   mqtt.init();
+  HandleMQTTDisconnect();
+  StartupFinished();
 }
 
 // Loop
@@ -77,39 +82,26 @@ void loop()
   }
   else
   {
-    mqtt.reconnect();
+    HandleMQTTDisconnect();
   }
 }
 
 String ComposeJsonESPstatus()
 {
-  // Sammeln der Daten
-  String ssid = wifi.getConnectedSSID();
-  String ip = wifi.getNetworkiP();
-  String rssi = wifi.getWiFiRSSI();
-  String hostname = wifi.getHostname();
-  float free_heap = ESP.getFreeHeap() / 1000;
-  int heap_fragmentation = ESP.getHeapFragmentation();
-  float temp = Weather_Sensor.getTemp();
-  float humidity = Weather_Sensor.getHumidity();
-  float gas = Weather_Sensor.getGas();
-  float presure = Weather_Sensor.getPresure();
-
   String Json_Data;
-
   StaticJsonDocument<250> doc;
 
   // Zusammentragen der Daten zu einem Json String
-  doc["ssid"] = ssid;
-  doc["ip"] = ip;
-  doc["rssi"] = rssi;
-  doc["hostname"] = hostname;
-  doc["sensor_temp"] = temp;
-  doc["sensor_humidity"] = humidity;
-  doc["sensor_gas"] = gas;
-  doc["sensor_presure"] = presure;
-  doc["esp_free_heap"] = free_heap;
-  doc["esp_heap_fragmentation"] = heap_fragmentation;
+  doc["ssid"] = wifi.getConnectedSSID();
+  doc["ip"] = wifi.getNetworkiP();
+  doc["rssi"] = wifi.getWiFiRSSI();
+  doc["hostname"] = wifi.getHostname();
+  doc["sensor_temp"] = Weather_Sensor.getTemp();
+  doc["sensor_humidity"] = Weather_Sensor.getHumidity();
+  doc["sensor_gas"] = Weather_Sensor.getGas();
+  doc["sensor_presure"] = Weather_Sensor.getPresure();
+  doc["esp_free_heap"] = ESP.getFreeHeap() / 1000;
+  doc["esp_heap_fragmentation"] = ESP.getHeapFragmentation();
   serializeJson(doc, Json_Data);
 
   if (debug_mode)
@@ -124,23 +116,41 @@ void HandleWiFiDisconnect()
 {
   if (wifi.CheckWiFiConnected() == false)
   {
-    RGB_LED_Handler warn_led = RGB_LED_Handler(led_blue, led_green, led_red);
-    warn_led.SetLedColor("ff0011");
+    led.SetLedColor("ff0011");
+    int counter = 1;
 
     while (wifi.CheckWiFiConnected() == false)
     {
-      warn_led.TurnOnLED();
-      delay(100);
-      warn_led.TurnOffLed();
-      delay(100);
-      warn_led.TurnOnLED();
-      delay(100);
-      warn_led.TurnOffLed();
-      delay(100);
-      warn_led.TurnOnLED();
-      delay(100);
-      warn_led.TurnOffLed();
-      delay(3000);
+      while (counter < 7)
+      {
+        led.TurnOnLED();
+        delay(100);
+        led.TurnOffLed();
+        delay(100);
+        counter++;
+      }
+    }
+  }
+}
+
+void HandleMQTTDisconnect()
+{
+  if (mqtt.CheckConnection() == false)
+  {
+    led.SetLedColor("FFB52E");
+    int counter = 1;
+
+    while (mqtt.CheckConnection() == false)
+    {
+      while (counter < 7)
+      {
+        led.TurnOnLED();
+        delay(100);
+        led.TurnOffLed();
+        delay(100);
+        counter++;
+      }
+      mqtt.reconnect();
     }
   }
 }
@@ -161,5 +171,19 @@ void UpdateTime()
   if (debug_mode)
   {
     Serial.println("Aktuelle Zeit: " + timeClient.getFormattedTime());
+  }
+}
+
+void StartupFinished()
+{
+  led.SetLedColor("00FF00");
+  int counter = 1;
+  while (counter < 7)
+  {
+    led.TurnOnLED();
+    delay(100);
+    led.TurnOffLed();
+    delay(100);
+    counter++;
   }
 }

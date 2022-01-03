@@ -60,7 +60,6 @@ void RGB_LED_Handler::TurnOnLED()
         Serial.println("Green = " + String(green_value));
         Serial.println("Blue = " + String(blue_value));
     }
-
     analogWrite(led_red, red_value);
     analogWrite(led_green, green_value);
     analogWrite(led_blue, blue_value);

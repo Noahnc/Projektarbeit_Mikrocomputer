@@ -50,7 +50,6 @@ void MQTT_Handler::reconnect()
             Serial.print("Connecting to MQTT topics: ");
         }
         client.connect(ESP_JSON_DATA);
-
         client.subscribe(rgb_topic);
         client.subscribe(rgb_switch_topic);
 
@@ -71,7 +70,6 @@ void MQTT_Handler::reconnect()
             Serial.print(clientId);
             Serial.println(" try again in 5 seconds");
         }
-
         delay(2000);
     }
 }

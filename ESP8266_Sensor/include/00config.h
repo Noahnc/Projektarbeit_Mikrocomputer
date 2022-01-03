@@ -10,17 +10,17 @@
 
 namespace config_constants
 {
-    // Hostname
+    // Hostname:
     const String ESP_Hostname = "ESP-Projektarbeit-Mikrocomputer";
 
-    // WiFi Config
+    // WiFi Config:
     const String wifi_ssid = "Demo";
     const String wifi_wpa_psk = "Demo2021735bd";
 
-    // NTP Server
+    // NTP Server:
     const String NTP_Server = "ch.pool.ntp.org";
 
-    // MQTT Server
+    // MQTT Server angaben:
     const String mosquitto_server = "projektarbeit-mikrocomputer.canadea.ch";
     const String mosquitto_user = "mqtt_user";
     const String mosquitto_pw = "jfjhHbhf86edjdjHG";
@@ -28,7 +28,7 @@ namespace config_constants
     // Debug Mode (gibt diverse Informationen per Serial aus)
     const bool debug_mode = false;
 
-    // Intervall in Sekunden, in welchm Daten ausgewertet und per mqtt übermittelt werden.
+    // Intervall in Sekunden, in welchem Daten ausgewertet und per mqtt übermittelt werden.
     const int mqtt_update_interval = 30;
 
     // RGB LED pins

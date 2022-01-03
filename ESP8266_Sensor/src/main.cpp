@@ -108,7 +108,6 @@ String ComposeJsonESPstatus()
   {
     Serial.println("Composed Json : " + Json_Data);
   }
-
   return Json_Data;
 }
 
@@ -167,7 +166,6 @@ void CheckMemoryFragmentation()
 void UpdateTime()
 {
   timeClient.update();
-
   if (debug_mode)
   {
     Serial.println("Aktuelle Zeit: " + timeClient.getFormattedTime());

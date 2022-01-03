@@ -184,4 +184,8 @@ void StartupFinished()
     delay(100);
     counter++;
   }
+
+  led.TurnOnLED();
+  delay(2000);
+  led.TurnOffLed();
 }

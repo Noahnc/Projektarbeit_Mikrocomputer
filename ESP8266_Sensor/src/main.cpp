@@ -138,7 +138,7 @@ void HandleMQTTDisconnect()
 {
   if (mqtt.CheckConnection() == false)
   {
-    led.SetLedColor("FFB52E");
+    led.SetLedColor("ff00bf");
     int counter = 1;
 
     while (mqtt.CheckConnection() == false)

@@ -128,6 +128,8 @@ void HandleWiFiDisconnect()
         delay(100);
         counter++;
       }
+      delay(5000);
+      counter = 1;
     }
   }
 }
@@ -150,6 +152,7 @@ void HandleMQTTDisconnect()
         counter++;
       }
       mqtt.reconnect();
+      counter = 1;
     }
   }
 }

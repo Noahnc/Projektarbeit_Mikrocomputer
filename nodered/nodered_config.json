@@ -226,7 +226,7 @@
         "type": "ui_group",
         "name": "Licht",
         "tab": "ff40853de8bd059e",
-        "order": 3,
+        "order": 4,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -237,7 +237,7 @@
         "type": "ui_group",
         "name": "ESP Info",
         "tab": "ff40853de8bd059e",
-        "order": 4,
+        "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -313,8 +313,8 @@
         "seg1": "30",
         "seg2": "40",
         "className": "",
-        "x": 750,
-        "y": 180,
+        "x": 1010,
+        "y": 140,
         "wires": []
     },
     {
@@ -340,8 +340,8 @@
         "seg1": "40",
         "seg2": "70",
         "className": "",
-        "x": 760,
-        "y": 280,
+        "x": 1020,
+        "y": 240,
         "wires": []
     },
     {
@@ -357,18 +357,18 @@
         "title": "Luftqualität",
         "label": "kOhms",
         "format": "{{value}}",
-        "min": "0",
-        "max": "500",
+        "min": "100",
+        "max": "10",
         "colors": [
             "#00b500",
             "#e6e600",
             "#ca3838"
         ],
-        "seg1": "101",
-        "seg2": "250",
+        "seg1": "60",
+        "seg2": "34",
         "className": "",
-        "x": 750,
-        "y": 380,
+        "x": 1010,
+        "y": 340,
         "wires": []
     },
     {
@@ -384,8 +384,8 @@
         "format": "{{msg.payload.sensor_presure}}",
         "layout": "col-center",
         "className": "",
-        "x": 740,
-        "y": 460,
+        "x": 1000,
+        "y": 420,
         "wires": []
     },
     {
@@ -404,9 +404,9 @@
         "interpolate": "linear",
         "nodata": "",
         "dot": false,
-        "ymin": "-5",
-        "ymax": "45",
-        "removeOlder": "2",
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "24",
         "removeOlderPoints": "10000",
         "removeOlderUnit": "3600",
         "cutout": 0,
@@ -426,8 +426,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 750,
-        "y": 220,
+        "x": 1010,
+        "y": 180,
         "wires": [
             []
         ]
@@ -448,10 +448,10 @@
         "interpolate": "linear",
         "nodata": "",
         "dot": false,
-        "ymin": "0",
-        "ymax": "100",
-        "removeOlder": "2",
-        "removeOlderPoints": "",
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "24",
+        "removeOlderPoints": "10000",
         "removeOlderUnit": "3600",
         "cutout": 0,
         "useOneColor": false,
@@ -470,8 +470,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 760,
-        "y": 320,
+        "x": 1020,
+        "y": 280,
         "wires": [
             []
         ]
@@ -492,9 +492,9 @@
         "interpolate": "linear",
         "nodata": "",
         "dot": false,
-        "ymin": "0",
-        "ymax": "300",
-        "removeOlder": "2",
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "24",
         "removeOlderPoints": "",
         "removeOlderUnit": "3600",
         "cutout": 0,
@@ -514,8 +514,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 750,
-        "y": 420,
+        "x": 1010,
+        "y": 380,
         "wires": [
             []
         ]
@@ -532,7 +532,7 @@
         "mode": "increment",
         "outputs": "1",
         "x": 540,
-        "y": 840,
+        "y": 800,
         "wires": [
             [
                 "c87d776f679e15c9"
@@ -552,8 +552,8 @@
         "format": "{{msg.count}}",
         "layout": "col-center",
         "className": "",
-        "x": 780,
-        "y": 840,
+        "x": 1040,
+        "y": 800,
         "wires": []
     },
     {
@@ -577,7 +577,7 @@
         "topic": "",
         "payloadType": "date",
         "x": 110,
-        "y": 840,
+        "y": 800,
         "wires": [
             [
                 "c67c01e8d018ab92"
@@ -596,7 +596,7 @@
         "finalize": "",
         "libs": [],
         "x": 310,
-        "y": 840,
+        "y": 800,
         "wires": [
             [
                 "0dc5bf16065009a3"
@@ -615,7 +615,7 @@
         "finalize": "",
         "libs": [],
         "x": 230,
-        "y": 640,
+        "y": 580,
         "wires": [
             [
                 "0dc5bf16065009a3"
@@ -683,8 +683,8 @@
         "format": "{{msg.payload.hostname}}",
         "layout": "col-center",
         "className": "",
-        "x": 750,
-        "y": 680,
+        "x": 1010,
+        "y": 640,
         "wires": []
     },
     {
@@ -700,8 +700,8 @@
         "format": "{{msg.payload.ssid}}",
         "layout": "col-center",
         "className": "",
-        "x": 730,
-        "y": 720,
+        "x": 990,
+        "y": 680,
         "wires": []
     },
     {
@@ -717,8 +717,8 @@
         "format": "{{msg.payload.rssi}}",
         "layout": "col-center",
         "className": "",
-        "x": 730,
-        "y": 760,
+        "x": 990,
+        "y": 720,
         "wires": []
     },
     {
@@ -734,8 +734,8 @@
         "format": "{{msg.payload.ip}}",
         "layout": "col-center",
         "className": "",
-        "x": 730,
-        "y": 800,
+        "x": 990,
+        "y": 760,
         "wires": []
     },
     {
@@ -764,8 +764,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 180,
+        "x": 840,
+        "y": 140,
         "wires": [
             [
                 "d237f3cad71b27a5",
@@ -799,8 +799,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 280,
+        "x": 840,
+        "y": 240,
         "wires": [
             [
                 "07f158e0a101d638",
@@ -834,8 +834,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 380,
+        "x": 840,
+        "y": 340,
         "wires": [
             [
                 "1339f35912afc8c1",
@@ -856,8 +856,8 @@
         "format": "{{value}}%",
         "layout": "row-center",
         "className": "",
-        "x": 790,
-        "y": 640,
+        "x": 1050,
+        "y": 600,
         "wires": []
     },
     {
@@ -898,8 +898,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 790,
-        "y": 600,
+        "x": 1050,
+        "y": 560,
         "wires": [
             []
         ]
@@ -923,8 +923,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 620,
+        "x": 840,
+        "y": 580,
         "wires": [
             [
                 "9b6b6e7fbe2313a3",
@@ -951,8 +951,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 540,
+        "x": 840,
+        "y": 500,
         "wires": [
             [
                 "e5ada84adad67649",
@@ -998,8 +998,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 770,
-        "y": 520,
+        "x": 1030,
+        "y": 480,
         "wires": [
             []
         ]
@@ -1017,8 +1017,8 @@
         "format": "{{value}} KByte",
         "layout": "row-center",
         "className": "",
-        "x": 770,
-        "y": 560,
+        "x": 1030,
+        "y": 520,
         "wires": []
     },
     {
@@ -1027,7 +1027,7 @@
         "z": "343d439a7b165976",
         "mydb": "fa9ebf0b8460f903",
         "name": "inser into mysql db",
-        "x": 770,
+        "x": 1110,
         "y": 40,
         "wires": [
             []
@@ -1044,7 +1044,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 540,
+        "x": 880,
         "y": 40,
         "wires": [
             [
@@ -1059,7 +1059,7 @@
         "mydb": "fa9ebf0b8460f903",
         "name": "mysql select messwerte",
         "x": 250,
-        "y": 340,
+        "y": 320,
         "wires": [
             [
                 "a25d1691f9c712df",
@@ -1072,7 +1072,7 @@
         "id": "8a7bd86d8a8699d0",
         "type": "inject",
         "z": "343d439a7b165976",
-        "name": "compose select query",
+        "name": "get messwerte on startup",
         "props": [
             {
                 "p": "topic",
@@ -1083,30 +1083,13 @@
         "crontab": "",
         "once": true,
         "onceDelay": "7",
-        "topic": "SELECT * FROM messwerte;",
-        "x": 140,
+        "topic": "SELECT * FROM messwerte WHERE timedate >= NOW() - INTERVAL 24 HOUR;",
+        "x": 150,
         "y": 260,
         "wires": [
             [
                 "91638b296e22e39c"
             ]
-        ]
-    },
-    {
-        "id": "efc6bf7807751021",
-        "type": "split",
-        "z": "343d439a7b165976",
-        "name": "",
-        "splt": "\\n",
-        "spltType": "str",
-        "arraySplt": 1,
-        "arraySpltType": "len",
-        "stream": false,
-        "addname": "",
-        "x": 420,
-        "y": 1300,
-        "wires": [
-            []
         ]
     },
     {
@@ -1128,8 +1111,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 220,
+        "x": 840,
+        "y": 180,
         "wires": [
             [
                 "7f52d610ca9391bd"
@@ -1155,8 +1138,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 320,
+        "x": 840,
+        "y": 280,
         "wires": [
             [
                 "78ea5122d9cd1a2e"
@@ -1182,12 +1165,48 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 580,
-        "y": 420,
+        "x": 840,
+        "y": 380,
         "wires": [
             [
                 "1339f35912afc8c1"
             ]
+        ]
+    },
+    {
+        "id": "41fdd1afe8c4cb6d",
+        "type": "inject",
+        "z": "343d439a7b165976",
+        "name": "table cleanup every 24h",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "7",
+        "topic": "delete from messwerte where timedate < now() - interval 30 DAY;",
+        "x": 150,
+        "y": 1120,
+        "wires": [
+            [
+                "e0f339a7ebc9df83"
+            ]
+        ]
+    },
+    {
+        "id": "e0f339a7ebc9df83",
+        "type": "mysql",
+        "z": "343d439a7b165976",
+        "mydb": "fa9ebf0b8460f903",
+        "name": "mysql cleanup older than 30 days",
+        "x": 860,
+        "y": 1120,
+        "wires": [
+            []
         ]
     },
     {

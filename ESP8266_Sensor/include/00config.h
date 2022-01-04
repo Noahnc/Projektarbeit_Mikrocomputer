@@ -10,7 +10,7 @@
 
 namespace config_constants
 {
-    // Hostname:
+    // Stationsname, muss gleich sein wie Name in SQL DB:
     const String ESP_Hostname = "ESP-Projektarbeit-Mikrocomputer";
 
     // WiFi Config:
@@ -63,5 +63,17 @@ XUx3olcXM15frjwNrWoz5g59S6/sGrJS8vEmm+LFkrqCwq69u3m1o2oEm1b4ge9v
 6MhpQSE=
 -----END CERTIFICATE-----
 )EOF";
+
+    const char mosquitto_pub_key[] PROGMEM = R"KEY(
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvw+Xha3htXbVflUgnGmh
+Q43M25sgIWkeeetvkl3bTptWuLwY0m4UtP10IaojDJEhxcTg1LsxzYf4xlUWp1BT
+E7iz8dH/HrkfSKAfzBX30C7rqSAX6xX+Ca1qq5Q/IrQUOZYGHs97Sl9imO5nJz5K
+B3g2f/byn8L2n/TIPrr6r/ac3qG8LLwbsCzDM5w18SNPqhpi5ksSKPFnl+pRBDQA
+MxiQg6zulZFyyjChxg6YVWwoAeWELXXdzPaJoqokkLXd+BOCTAeql5RC7Jl1dQP9
+jgoF3HsPk2Ah3qAg4rrak9GuAK2hS5cLNJADYegVqkVh11WQ3wHaUl5xnb3vVnL8
+OwIDAQAB
+-----END PUBLIC KEY-----
+)KEY";
 
 }

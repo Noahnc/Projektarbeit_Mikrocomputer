@@ -23,6 +23,7 @@ private:
     PubSubClient client;
     String clientId;
     BearSSL::X509List cert;
+    BearSSL::PublicKey publicKey;
 
 public:
     static RGB_LED_Handler LED;

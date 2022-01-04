@@ -30,6 +30,8 @@ void MQTT_Handler::init()
 {
     cert = X509List(mosquitto_ca);
     espClient.setTrustAnchors(&cert);
+    //publicKey = PublicKey(mosquitto_pub_key);
+    //espClient.setKnownKey(&publicKey);
     espClient.setInsecure();
     client.setClient(espClient);
     client.setServer(MQTT_Server.c_str(), 1883);

@@ -21,7 +21,7 @@ public:
     void init();
     String getNetworkiP();
     String getConnectedSSID();
-    String getWiFiRSSI();
+    int getWiFiRSSI();
     String getHostname();
     bool CheckWiFiConnected();
 

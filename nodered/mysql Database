@@ -2,7 +2,7 @@ CREATE DATABASE WeatherData;
 
 create table messwerte(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    station VARCHAR(100) NOT NULL,
+    StationName VARCHAR(100) NOT NULL,
     timedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     temp FLOAT NOT NULL,
     humidity FLOAT NOT NULL,
@@ -10,11 +10,29 @@ create table messwerte(
     presure FLOAT NOT NULL
 );
 
+create table Wetterstationen(
+    StationName VARCHAR(100) NOT NULL PRIMARY KEY,
+    PLZ INT NOT NULL,
+    City VARCHAR(100) NOT NULL,
+    Address VARCHAR(100) NOT NULL,
+    StreetNumber INT NOT NULL
+);
+
+SELECT Wetterstationen.StationName, messwerte.StationName
+       FROM Wetterstationen
+       JOIN messwerte
+            ON Wetterstationen.StationName = messwerte.StationName;
+
 CREATE USER 'nodered'@'10.135.0.2' IDENTIFIED BY 'hdg735HGhd!';
 GRANT ALL PRIVILEGES ON WeatherData.* TO 'nodered'@'10.135.0.2';
 
-INSERT INTO messwerte (station, temp, humidity, gas, presure)
-VALUES (ESP-Projektarbeit-Mikrocomputer,21.23, 35.72, 55.22, 977.3);
+INSERT INTO messwerte (StationName, temp, humidity, gas, presure)
+VALUES ("ESP-Projektarbeit-Mikrocomputer",21.23, 35.72, 55.22, 977.3);
+
+INSERT INTO Wetterstationen (StationName, PLZ, City, Address, StreetNumber)
+VALUES ("ESP-Projektarbeit-Mikrocomputer",8005, "Zuerich", "Musterstrasse", 10);
+
+
 
 
 

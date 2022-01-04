@@ -76,10 +76,10 @@ String WiFi_Handler::getConnectedSSID()
     return SSID;
 }
 
-String WiFi_Handler::getWiFiRSSI()
+int WiFi_Handler::getWiFiRSSI()
 {
 
-    return String(WiFi.RSSI());
+    return WiFi.RSSI();
 }
 
 String WiFi_Handler::getHostname()

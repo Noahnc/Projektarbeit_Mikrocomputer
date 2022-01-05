@@ -680,7 +680,8 @@
                 "bdd5ccb3a65b0547",
                 "41bc91bca8ba5005",
                 "d6fb78ab9e70d24b",
-                "4b0a44b19a6edbeb"
+                "4b0a44b19a6edbeb",
+                "eecd350ed0416c45"
             ]
         ]
     },
@@ -1021,7 +1022,7 @@
         "z": "343d439a7b165976",
         "mydb": "fa9ebf0b8460f903",
         "name": "inser into mysql db",
-        "x": 1110,
+        "x": 1210,
         "y": 60,
         "wires": [
             []
@@ -1031,15 +1032,15 @@
         "id": "bdd5ccb3a65b0547",
         "type": "function",
         "z": "343d439a7b165976",
-        "name": "compose SQL insert",
+        "name": "compose SQL insert messwerte",
         "func": "var data=msg.payload; //get payload\nlet query='INSERT INTO messwerte (StationName, temp, humidity, gas, presure) VALUES (\"' + data.hostname + '\",' + data.temp + ',' + data.humidity + ',' + data.gas + ',' + data.presure + ');';\nmsg.topic=query;\nreturn msg;\n\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 880,
-        "y": 60,
+        "x": 950,
+        "y": 80,
         "wires": [
             [
                 "3b02f206d3432dbb"
@@ -1231,6 +1232,25 @@
         "y": 920,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "eecd350ed0416c45",
+        "type": "function",
+        "z": "343d439a7b165976",
+        "name": "compose SQL insert hw_diagnostics",
+        "func": "var data=msg.payload; //get payload\nlet query='INSERT INTO hw_diagnostics (StationName, SSID, rssi, heap_fragmentation, heap_free) VALUES (\"' + data.hostname + '\",\"' + data.ssid + '\",' + data.rssi + ',' + data.heap_fragm + ',' + data.free_heap + ');';\nmsg.topic=query;\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 40,
+        "wires": [
+            [
+                "3b02f206d3432dbb"
+            ]
         ]
     },
     {
@@ -1504,7 +1524,7 @@
         "onceDelay": "7",
         "topic": "delete from messwerte where timedate < now() - interval 30 DAY;",
         "x": 150,
-        "y": 500,
+        "y": 480,
         "wires": [
             [
                 "e8be9b49104dbd26"
@@ -1664,6 +1684,30 @@
         "wires": [
             [
                 "6fda68878d88b868"
+            ]
+        ]
+    },
+    {
+        "id": "0ab5d6c7ec1ae295",
+        "type": "inject",
+        "z": "b872fb611589867d",
+        "name": "table cleanup every 24h",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "7",
+        "topic": "delete from hw_diagnostics where timedate < now() - interval 30 DAY;",
+        "x": 150,
+        "y": 540,
+        "wires": [
+            [
+                "e8be9b49104dbd26"
             ]
         ]
     },

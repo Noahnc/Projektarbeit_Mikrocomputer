@@ -11,6 +11,17 @@ create table messwerte(
 
 );
 
+create table hw_diagnostics(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    StationName VARCHAR(100) NOT NULL,
+    timedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    SSID VARCHAR(50) NOT NULL,
+    rssi int NOT NULL,
+    heap_fragmentation int NOT NULL,
+    heap_free int NOT NULL
+
+);
+
 create table Wetterstationen(
     C VARCHAR(100) NOT NULL PRIMARY KEY,
     PLZ INT NOT NULL,
@@ -24,13 +35,21 @@ SELECT Wetterstationen.StationName, messwerte.StationName
        JOIN messwerte
             ON Wetterstationen.StationName = messwerte.StationName;
 
+SELECT Wetterstationen.StationName, hw_diagnostics.StationName
+       FROM Wetterstationen
+       JOIN hw_diagnostics
+            ON Wetterstationen.StationName = hw_diagnostics.StationName;
+
 CREATE USER 'nodered'@'10.135.0.2' IDENTIFIED BY 'hdg735HGhd!';
 CREATE USER 'graphana'@'10.135.0.4' IDENTIFIED BY 'jdfnj7H47hrh!';
 GRANT ALL PRIVILEGES ON WeatherData.* TO 'nodered'@'10.135.0.2';
 GRANT ALL PRIVILEGES ON WeatherData.* TO 'graphana'@'10.135.0.4';
 
 INSERT INTO messwerte (StationName, temp, humidity, gas, presure)
-VALUES ("ESP-Projektarbeit-Mikrocomputer",21.23, 35.72, 55.22, 977.3);A
+VALUES ("ESP-Projektarbeit-Mikrocomputer",21.23, 35.72, 55.22, 977.3);
+
+INSERT INTO hw_diagnostics (StationName, SSID, rssi, heap_fragmentation, heap_free)
+VALUES ("ESP-Projektarbeit-Mikrocomputer",21.23, 35.72, 55.22, 977.3);
 
 INSERT INTO Wetterstationen (StationName, PLZ, City, Address, StreetNumber)
 VALUES ("Demo-Station-2",8004, "Zuerich", "Hauptstrasse", 20);

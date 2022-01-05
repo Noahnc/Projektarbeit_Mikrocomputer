@@ -36,6 +36,7 @@ void MQTT_Handler::init()
     client.setClient(espClient);
     client.setServer(MQTT_Server.c_str(), 1883);
     client.setCallback(callback);
+    client.setBufferSize(512);
     if (debug_mode)
     {
         Serial.print("Connecting to MQTT Server: ");

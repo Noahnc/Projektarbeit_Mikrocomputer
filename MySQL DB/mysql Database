@@ -8,10 +8,11 @@ create table messwerte(
     humidity FLOAT NOT NULL,
     gas FLOAT NOT NULL,
     presure FLOAT NOT NULL
+
 );
 
 create table Wetterstationen(
-    StationName VARCHAR(100) NOT NULL PRIMARY KEY,
+    C VARCHAR(100) NOT NULL PRIMARY KEY,
     PLZ INT NOT NULL,
     City VARCHAR(100) NOT NULL,
     Address VARCHAR(100) NOT NULL,
@@ -24,13 +25,15 @@ SELECT Wetterstationen.StationName, messwerte.StationName
             ON Wetterstationen.StationName = messwerte.StationName;
 
 CREATE USER 'nodered'@'10.135.0.2' IDENTIFIED BY 'hdg735HGhd!';
+CREATE USER 'graphana'@'10.135.0.4' IDENTIFIED BY 'jdfnj7H47hrh!';
 GRANT ALL PRIVILEGES ON WeatherData.* TO 'nodered'@'10.135.0.2';
+GRANT ALL PRIVILEGES ON WeatherData.* TO 'graphana'@'10.135.0.4';
 
 INSERT INTO messwerte (StationName, temp, humidity, gas, presure)
-VALUES ("ESP-Projektarbeit-Mikrocomputer",21.23, 35.72, 55.22, 977.3);
+VALUES ("ESP-Projektarbeit-Mikrocomputer",21.23, 35.72, 55.22, 977.3);A
 
 INSERT INTO Wetterstationen (StationName, PLZ, City, Address, StreetNumber)
-VALUES ("ESP-Projektarbeit-Mikrocomputer",8005, "Zuerich", "Musterstrasse", 10);
+VALUES ("Demo-Station-2",8004, "Zuerich", "Hauptstrasse", 20);
 
 
 

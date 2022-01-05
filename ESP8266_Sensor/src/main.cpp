@@ -30,6 +30,7 @@ using namespace config_constants;
 double last_sensor_read = 0;
 double time_diference;
 WiFiUDP ntpUDP;
+ADC_MODE(ADC_VCC);
 
 // Erstellen der Objekte
 MQTT_Handler mqtt = MQTT_Handler(mosquitto_server, mosquitto_user, mosquitto_pw, ESP_Hostname);
@@ -96,13 +97,16 @@ String ComposeJsonESPstatus()
   doc["ip"] = wifi.getNetworkiP();
   doc["rssi"] = wifi.getWiFiRSSI();
   doc["hostname"] = wifi.getHostname();
-  doc["sensor_temp"] = Weather_Sensor.getTemp();
-  doc["sensor_humidity"] = Weather_Sensor.getHumidity();
-  doc["sensor_gas"] = Weather_Sensor.getGas();
-  doc["sensor_presure"] = Weather_Sensor.getPresure();
-  doc["esp_free_heap"] = ESP.getFreeHeap() / 1000;
-  doc["esp_heap_fragmentation"] = ESP.getHeapFragmentation();
+  doc["temp"] = Weather_Sensor.getTemp();
+  doc["humidity"] = Weather_Sensor.getHumidity();
+  doc["gas"] = Weather_Sensor.getGas();
+  doc["presure"] = Weather_Sensor.getPresure();
+  doc["free_heap"] = ESP.getFreeHeap() / 1000;
+  doc["heap_fragm"] = ESP.getHeapFragmentation();
+  doc["interval"] = mqtt_update_interval;
   serializeJson(doc, Json_Data);
+
+ 
 
   if (debug_mode)
   {
@@ -179,7 +183,7 @@ void StartupFinished()
 {
   led.SetLedColor("00FF00");
   int counter = 1;
-  while (counter < 7)
+  while (counter < 4)
   {
     led.TurnOnLED();
     delay(100);

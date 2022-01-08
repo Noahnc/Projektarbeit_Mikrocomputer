@@ -118,7 +118,7 @@ void MQTT_Handler::callback(char *topic, byte *message, unsigned int length)
     }
 
     String messageTemp;
-    for (int i = 0; i < length; i++)
+    for (unsigned int i = 0; i < length; i++)
     {
         if (debug_mode)
         {

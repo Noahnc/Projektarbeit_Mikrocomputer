@@ -1,4 +1,4 @@
 # Projektarbeit Mikrocomputertechnik
 
-In dieser Repo ist sämtlicher Source Code, SQL Statement, Backups und Dokumentationen des Mikrocompueter Projekts "Wetterstation".
+In dieser Repository ist sämtlicher Source Code, SQL Statements, Backups und Dokumentationen des Mikrocompuetertechnik Projekts "Wetterstation".
 
